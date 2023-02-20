@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from bot.models import Question
+from quants.qa import askQuestion
 
 # Create your views here.
 
@@ -12,8 +13,13 @@ def handle_text(request):
     if request.method == "POST":
 
         # add new Question to database
-        text = request.data.get("text", '')
-        add = Question(question_text=text)
+        text = request.data.get("text", "What is Django?")
+        add = Question(text=text)
         add.save()
 
-        return Response("Your data has been saved!", status=200)
+        # run qa langchain
+        answer = askQuestion(text)
+        answer = answer["answer"]
+
+        # return value
+        return Response(answer, status=200)

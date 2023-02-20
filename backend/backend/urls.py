@@ -20,5 +20,5 @@ from bot.views import handle_text
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('question/', handle_text)
+    path('ask/', handle_text)
 ]
