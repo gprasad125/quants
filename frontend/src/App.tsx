@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { API_URL } from './settings';
+import { API_URL, DEV_URL} from './settings';
 import './App.css';
 
 type Result = {
@@ -7,7 +7,6 @@ type Result = {
     sources: string,
     question: string
 };
-
 
 function App() {
     const [question, setQuestion] = useState('');
@@ -17,28 +16,36 @@ function App() {
     questionRef.current = question;
     const submitRef = useRef(() => {});
 
-    useEffect(() => {
-        const ws = new WebSocket(API_URL);
-    
-        ws.onmessage = (e) => {
-            const json = JSON.parse(e.data as string);
+    function uploadData(input: string){
+
+        if (input.length <= 5) {
+            alert('Question must be > 5 characters in length!')
+            return;
+        }
+
+        setResult(null);
+        setLoading(true);
+
+        const data = new FormData();
+        data.append("text", input);
+
+        fetch(DEV_URL, {
+            method: "POST",
+            body: data
+        }).then(res => {
+            if (!res.ok){
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json();
+        }).then(data => {
+            const json = JSON.parse(data as string)
             setQuestion('');
             setResult(json as Result);
             setLoading(false);
-        };
-        
-        submitRef.current = () => {
-            if (questionRef.current.length <= 5) {
-                alert('Question must be > 5 characters in length!')
-                return;
-            }
-            setResult(null);
-            ws.send(questionRef.current);
-            setLoading(true);
-        };
-    }, []);
-
-    
+        }).catch(error => {
+            console.log(error);
+        })
+    };    
 
     let answerFragments: string[] = [];
     let sourceFragments: string[] = [];
@@ -87,7 +94,7 @@ function App() {
                     />
                     <button
                         className="px-10 py-2 bg-slate-500 hover:bg-slate-400 text-white rounded"
-                        onClick={() => submitRef.current()}
+                        onClick={() => uploadData(question)}
                     >
                         Ask!
                     </button>

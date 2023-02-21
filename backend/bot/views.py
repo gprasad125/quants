@@ -1,3 +1,6 @@
+import json
+
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,7 +22,7 @@ def handle_text(request):
 
         # run qa langchain
         answer = askQuestion(text)
-        answer = answer["answer"]
+        answer = json.dumps(answer)
 
         # return value
-        return Response(answer, status=200)
+        return Response(answer)
