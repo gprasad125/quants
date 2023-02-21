@@ -12,9 +12,9 @@ Created by @Gokul Prasad
 
 The baseline concepts for understanding backend development
 
-[What is a “Backend”? ](https://www.notion.so/What-is-a-Backend-9b846f7057f042679c496a344f3d0254)
+[What is a “Backend”? ](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/What%20is%20a%20%E2%80%9CBackend%E2%80%9D%209b846f7057f042679c496a344f3d0254.md)
 
-[The Backend Dictionary](https://www.notion.so/The-Backend-Dictionary-c1a2ec05ac36439ea64f2905987c9b46)
+[The Backend Dictionary](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/The%20Backend%20Dictionary%20c1a2ec05ac36439ea64f2905987c9b46.md)
 
 [APIs](https://www.notion.so/APIs-158298affaed40d384a0ccaceb4015dd)
 
@@ -30,23 +30,23 @@ Learn to use the most popular Python-based backend framework!
 
 ### 🧑‍🏫 Project Walkthrough
 
-[Django Project Walkthrough](https://www.notion.so/Django-Project-Walkthrough-0cf5b67991f04b6a984c094f31209a62)
+[Django Project Walkthrough](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Django%20Project%20Walkthrough%200cf5b67991f04b6a984c094f31209a62.md)
 
 ### 🍲 Django Resources
 
-[Django Libraries](https://www.notion.so/Django-Libraries-9011e5767235480bb2d74c6e1b8cc38e)
+[Django Libraries](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Django%20Libraries%209011e5767235480bb2d74c6e1b8cc38e.md)
 
-[***Common Django Topics & Issues***](https://www.notion.so/Common-Django-Topics-Issues-f9fb8ff96f4744e1937a64c94fa49d8d)
+[***Common Django Topics & Issues***](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Common%20Django%20Topics%20&%20Issues%20f9fb8ff96f4744e1937a64c94fa49d8d.md)
 
-[The Django Dictionary](https://www.notion.so/The-Django-Dictionary-0e1176b3d08a4c24be8ed973d737702f)
+[The Django Dictionary](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/The%20Django%20Dictionary%200e1176b3d08a4c24be8ed973d737702f.md)
 
 ## 🍩 Resources
 
 Resources to look at, no matter what backend tool you choose. Django-focused but widely applicable. 
 
-[Deployment ](https://www.notion.so/Deployment-7f04c61c01204cc6bdf65c230d042782)
+[Deployment ](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Deployment%207f04c61c01204cc6bdf65c230d042782.md)
 
-[API Management](https://www.notion.so/API-Management-b79c023d552648e59044f2a376ac2b83)
+[API Management](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/API%20Management%20b79c023d552648e59044f2a376ac2b83.md)
 
 ---
 
@@ -58,15 +58,15 @@ Read about the best ways to get your code readable, clean, and shareable.
 
 ### Best Practices
 
-[Python Best Practices](https://www.notion.so/Python-Best-Practices-175abddebbbe4dcab9105ed0493f695f)
+[Python Best Practices](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Python%20Best%20Practices%20175abddebbbe4dcab9105ed0493f695f.md)
 
-[Django Best Practices](https://www.notion.so/Django-Best-Practices-815db743ee404468a565cf6f0022c8f6)
+[Django Best Practices](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Django%20Best%20Practices%20815db743ee404468a565cf6f0022c8f6.md)
 
 ### Tools
 
-[Linters](https://www.notion.so/Linters-b46a758395714124846e785ca9d0e1d0)
+[Linters](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Linters%20b46a758395714124846e785ca9d0e1d0.md)
 
-[Packages and Libraries](https://www.notion.so/Packages-and-Libraries-7bf1a7197cfe479a81c7468f386d542f)
+[Packages and Libraries](Backend%20Crash%20Course%206c02aaea545044598c7a4fb52089c958/Packages%20and%20Libraries%207bf1a7197cfe479a81c7468f386d542f.md)
 
 ## 🐈 GitHub
 

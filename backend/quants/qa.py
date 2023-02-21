@@ -4,6 +4,10 @@ from langchain import OpenAI
 from langchain.chains import VectorDBQAWithSourcesChain
 import pickle
 import argparse
+import os
+
+# set openai key
+os.environ['OPENAI_API_KEY'] = os.environ.get('openai_api_key')
 
 # Load the LangChain.
 index = faiss.read_index('quants/docs.index')
