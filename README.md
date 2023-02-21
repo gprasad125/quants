@@ -1,7 +1,7 @@
 # Repository for QUANTS
 🧠 QUANTS is the Q&A (for) Notion (to) Train Students.
 
-Powered by [Langchain](https://github.com/hwchase17/langchain), this project allows you to query the AI Camp Notion with natural language prompts.
+Powered by [Langchain](https://github.com/hwchase17/langchain), this project allows you to query the AI Camp Expert Course with natural language prompts.
 
 This project is based off of [notion-qa](https://github.com/hwchase17/notion-qa) by Harrison Chase. 
 
@@ -12,22 +12,21 @@ This project is based off of [notion-qa](https://github.com/hwchase17/notion-qa)
 Install Python dependencies by running
 `pip install -r requirements.txt`
 
-Export your OpenAI API Key by running
-`export OPENAI_API_KEY=...`
+Navigate to `backend/quants/qa.py` and modify the `os.environ["OPENAI_API_KEY"]` line to include your OpenAI API Key. You'll need an OpenAI account to get access to an API Key, which you can make [here](https://platform.openai.com). 
 
 ⭐ You may need an API Key without rate limits! ⭐
 
-Launch the Django server
-`python manage.py runserver`
+# Local Server
 
-Then, navigate to localhost:8000/ask, and paste in your query like so:
-```
-{
-"text": "...your question goes here..."
-}
-```
+Launch the Django server inside `backend`:
 
-Hit POST, and get your answer! 😁
+`python3 manage.py runserver`
+
+Launch the React server inside `frontend`:
+
+`npm run dev`
+
+Navigate to the frontend link provided in your browser, and paste your question in the text box. Hit ask, and get your answer! 😁
 
 
 ### Written by Alex Zhou, David Kim, and Gokul Prasad
