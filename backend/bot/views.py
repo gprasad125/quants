@@ -19,8 +19,8 @@ def handle_text(request):
         add.save()
 
         # run qa langchain
-        answer = askQuestion(text)
-        answer = json.dumps(answer)
+        validated, possible, sources = askQuestion(text)
+        formatted = "Validated: {0}, Answer: {1}, Sources: {2}".format(validated, possible, sources)
 
         # return value
-        return Response(answer)
+        return Response(formatted)
