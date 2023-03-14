@@ -16,6 +16,8 @@ Navigate to `backend/quants/qa.py` and modify the `os.environ["OPENAI_API_KEY"]`
 
 ⭐ You may need an API Key without rate limits! ⭐
 
+Ingest your markdown files by going to `backend/quants` and creating a `Notion_DB` directory containing your files. After creating and uploading your files, run `python3 ingest.py` to create the vector embeddings, document indices, and other files important for semantic search. 
+
 # Local Server
 
 Launch the Django server inside `backend`:

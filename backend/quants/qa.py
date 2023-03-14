@@ -1,6 +1,8 @@
 """Ask a question to the notion database."""
 import faiss
 import pickle
+import openai
+import os
 
 from quants.custom.chain import CustomChain
 from quants.custom.prompts import CUSTOM_COMBINE_PROMPT
@@ -33,11 +35,37 @@ def askQuestion(question):
 
     return validated, answer, sources
 
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser(description='Ask a question to the notion DB.')
-#     parser.add_argument('question', type=str, help='The question to ask the notion DB')
-#     args = parser.parse_args()
+def final_validation(question, answer):
 
-#     result = askQuestion(args.question)
-#     print(f"Answer: {result['answer']}")
-#     print(f"Sources: {result['sources']}")
+    rules = '''
+    Determine if the given answer is appropriate for the given question. If not, then return "I do not know". Otherwise, simply return the given answer. For example:
+
+    EXAMPLE PROMPT:
+    Given Question: "Who is the president of the United States?"
+    Given Answer: "The president of the U.S. is Joe Biden.
+
+
+    EXAMPLE CORRECT RESPONSE: The president of the U.S. is Joe Biden. 
+
+    EXAMPLE PROMPT:
+    Given Question: "Why do we like to use linters?"
+    Given Answer: "HTML is a markup language for building websites."
+
+    EXAMPLE CORRECT RESPONSE: I do not know. 
+
+    '''
+
+    prompt = 'Given question: ' + question + ", Given Answer: " + answer
+
+    openai.api_key = os.environ['OPENAI_API_KEY']
+    model = openai.ChatCompletion.create(
+        model = 'gpt-3.5-turbo', 
+        messages = [
+            {'role': 'system', 'content': rules},
+            {'role': 'user', 'content': prompt}
+        ]
+    )
+
+    validated = model['choices'][0]['message']['content'].strip()
+
+    return validated

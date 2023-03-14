@@ -1,0 +1,3 @@
+# How does Django work?
+
+Django’s architecture is based on the Model-View-Controller (MVC) system, which allows developers to split the logic of the application amongst different components. Furthermore, Django apps can speak to databases via Object-Relational-Mapping (ORM) via Python code, rather than SQL. Additionally, Django has a robust community, so developers have extensive documentation and support to back them as they create their applications.
