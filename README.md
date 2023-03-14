@@ -12,7 +12,9 @@ This project is based off of [notion-qa](https://github.com/hwchase17/notion-qa)
 Install Python dependencies by running
 `pip install -r requirements.txt`
 
-Navigate to `backend/quants/qa.py` and modify the `os.environ["OPENAI_API_KEY"]` line to include your OpenAI API Key. You'll need an OpenAI account to get access to an API Key, which you can make [here](https://platform.openai.com). 
+Export your OpenAI API key to the script by running
+`export OPENAI_API_KEY=...`
+You'll need an OpenAI account to get access to an API Key, which you can make [here](https://platform.openai.com). 
 
 ⭐ You may need an API Key without rate limits! ⭐
 
