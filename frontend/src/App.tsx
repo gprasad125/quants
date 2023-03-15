@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { API_URL, DEV_URL} from './settings';
+import { API_URL, DEV_URL, FILE_URL, INGEST_URL} from './settings';
 import './App.css';
 
 type Result = {
@@ -15,6 +15,55 @@ function App() {
     const questionRef = useRef(question);
     questionRef.current = question;
     const submitRef = useRef(() => {});
+
+    const [file, setFile] = useState<File | undefined>();
+
+    function postFile(file: File) {
+      
+        const formData = new FormData();
+        formData.append('file', file);
+      
+        fetch(FILE_URL, {
+          method: 'POST',
+          body: formData,
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Upload successful:', data);
+          })
+          .catch(error => {
+            console.error('Error uploading file:', error);
+          });
+      }
+
+
+    function createFile(evt: React.ChangeEvent<HTMLInputElement>) {
+        const file = evt.target.files?.[0];
+        if (file) {
+          setFile(file);
+          postFile(file);
+        }
+    }
+
+    function ingest(){
+
+        fetch(INGEST_URL,
+            {method: 'POST'}
+        ).then(response =>
+            {
+                if (!response.ok){
+                    throw new Error('Ingestion failed...');
+                }
+                return response.json();
+            }).then( data => {console.log('Ingestion passed!')})
+            .catch(error => {console.log('Error: ', error)})
+
+    }
 
     function uploadData(input: string){
 
@@ -97,7 +146,19 @@ function App() {
                         onClick={() => uploadData(question)}
                     >
                         Ask!
+                    </button>  
+
+                    <button
+                        className="m-2 px-4 py-2 bg-slate-500 hover:bg-slate-400 text-white rounded"
+                        onClick={() => ingest()}
+                    >
+                        Ingest Files
                     </button>
+
+                    <input type = 'file' accept = '.md' className='px-10 py-2' multiple onChange={(evt) => createFile(evt)}></input>
+
+                    {/* <input id="fileSelector" type="file" accept=".mp4,.mp3,.m4a,.mov"  className='px-10 py-2 bg-slate-500 hover:bg-slate-400 text-white rounded'></input> */}
+
                 </>
             }
             { result ?

@@ -11,3 +11,11 @@ class Question(models.Model):
     # define fields
     text = models.CharField(max_length = 500)
     
+class File(models.Model):
+    """
+    A model to take in a uploaded .md File
+    Fields:
+        - file: the file
+    """
+
+    file = models.FileField(upload_to='quants/Notion_DB')

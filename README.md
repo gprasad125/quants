@@ -16,9 +16,7 @@ Export your OpenAI API key to the script by running
 `export OPENAI_API_KEY=...`
 You'll need an OpenAI account to get access to an API Key, which you can make [here](https://platform.openai.com). 
 
-⭐ You may need an API Key without rate limits! ⭐
-
-Ingest your markdown files by going to `backend/quants` and creating a `Notion_DB` directory containing your files. After creating and uploading your files, run `python3 ingest.py` to create the vector embeddings, document indices, and other files important for semantic search. 
+⭐ You may need an API Key without rate limits! ⭐ 
 
 # Local Server
 
