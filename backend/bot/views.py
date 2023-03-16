@@ -1,4 +1,5 @@
 import json
+import os
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -17,6 +18,11 @@ def handle_file(request):
         file = request.data.get('file', None)
         if file == None:
             return Response('Files failed to be uploaded.')
+
+        current = os.listdir('quants/Notion_DB')
+        if len(current) > 0:
+            for existing_file in current: 
+                os.remove(existing_file)
 
         add = File(file=file)
         add.save()
@@ -49,11 +55,6 @@ def handle_text(request):
 
         # run qa langchain
         validated, possible, sources = askQuestion(text)
-        # final_test = final_validation(text, validated)
-
-        # if final_test == "I do not know.":
-            
-        #     sources = []
         
         formatted = json.dumps({
             'question': text,
