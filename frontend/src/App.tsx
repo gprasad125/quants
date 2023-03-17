@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { API_URL, DEV_URL, FILE_URL, INGEST_URL} from './settings';
+import { API_URL, DEV_URL, FILE_URL, DOCS_URL} from './settings';
 import './App.css';
 
 type Result = {
@@ -52,7 +52,7 @@ function App() {
 
     function ingest(){
 
-        fetch(INGEST_URL,
+        fetch(DOCS_URL,
             {method: 'POST'}
         ).then(response =>
             {

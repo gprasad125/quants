@@ -12,6 +12,9 @@ from quants.ingest import ingest_md
 
 @api_view(["POST"])
 def handle_file(request):
+    '''
+    Maps to /documents. API for uploading user documents
+    '''
 
     if request.method == "POST":
 
@@ -20,14 +23,55 @@ def handle_file(request):
             return Response('Files failed to be uploaded.')
 
         current = os.listdir('quants/Notion_DB')
-        if len(current) > 0:
+        if len(current) > 1:
             for existing_file in current: 
-                os.remove(existing_file)
+
+                # if markdown
+                if existing_file[-2:] == "md":
+                    os.remove(existing_file)
 
         add = File(file=file)
         add.save()
 
-        return Response('files uploaded!')
+        return Response('files uploaded!', status=200)
+
+@api_view(['GET'])
+def get_file(request, filename):
+    '''
+    Maps to /documents/filename. API for getting user documents
+    '''
+
+    try:
+
+        file = File.objects.get(filename = filename)
+        
+        filepath = file.file.path
+        with open(filepath, 'r') as f:
+            content = f.read()
+
+        answer = {
+            "name": filename,
+            "content": content
+        }
+
+        return Response(answer)
+
+    except File.DoesNotExist:
+        return Response('File does not exist!')
+
+    except File.MultipleObjectsReturned:
+
+        file = File.objects.filter(filename = filename).latest('time_added')
+        filepath = file.file.path
+        with open(filepath, 'r') as f:
+            content = f.read()
+
+        answer = {
+            "name": filename,
+            "content": content
+        }
+
+        return Response(answer)
 
 @api_view(["POST"])
 def ingest(request):
@@ -45,6 +89,9 @@ def ingest(request):
 
 @api_view(["POST"])
 def handle_text(request):
+    '''
+    Maps to query/. API for querying document database. 
+    '''
 
     if request.method == "POST":
 
