@@ -11,7 +11,8 @@ db.sqlite3
 db.sqlite3-journal
 media
 
-
+*docs
+faiss_store.pkl
 *.DS_Store
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -190,3 +191,5 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/react,django
+backend/quants/faiss_store.pkl
+backend/quants/docs.index

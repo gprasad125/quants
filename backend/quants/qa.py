@@ -10,19 +10,28 @@ from quants.custom.validation import validate_answers
 from quants.custom.llm import CustomOpenAI
 
 # Load the LangChain.
-index = faiss.read_index('quants/docs.index')
 
-with open('quants/faiss_store.pkl', 'rb') as f:
-    store = pickle.load(f)
 
-store.index = index
-chain = CustomChain.from_llm(
-    llm=CustomOpenAI(temperature=0, model_name="gpt-3.5-turbo"), 
-    combine_prompt=CUSTOM_COMBINE_PROMPT,
-    vectorstore=store
-)
+def load_index():
+
+    index = faiss.read_index('quants/docs.index')
+
+    with open('quants/faiss_store.pkl', 'rb') as f:
+        store = pickle.load(f)
+
+    store.index = index
+    chain = CustomChain.from_llm(
+        llm=CustomOpenAI(temperature=0, model_name="gpt-3.5-turbo"), 
+        combine_prompt=CUSTOM_COMBINE_PROMPT,
+        vectorstore=store
+    )
+
+    return index, store, chain
 
 def askQuestion(question):
+
+    index, store, chain = load_index()
+
     results = chain({'question': question})
     validated = validate_answers(results)
     answer = results['answer'].split(':::')
