@@ -18,9 +18,9 @@ def upload_file(request):
 
     if request.method == "POST":
 
-        file = request.data.get('file', None)
-        if file == None:
-            return Response('Files failed to be uploaded.')
+        files = request.data.getlist('files')
+        if not files or len(files) < 1:
+            return Response('No files received', status=400)
 
         current = os.listdir('quants/Notion_DB')
         if len(current) > 1:
@@ -31,19 +31,18 @@ def upload_file(request):
                     if os.path.exists(existing_file):
                         os.remove(existing_file)
 
-        add = File(file=file)
-        add.save()
+        for file in files:
+            add = File(file=file)
+            add.save()
 
         trial = ingest_md()
         if trial:
-            return Response('files ingested! ready to be queried')
+            return Response('files ingested! ready to be queried', status=200)
         elif trial == "No Files Uploaded!":
-            return Response(trial)
+            return Response(trial, status=400)
         else:
-            return Response('files failed to be ingested.')
+            return Response('files failed to be ingested.', status=500)
         
-
-        return Response('files uploaded!', status=200)
 
 @api_view(['GET'])
 def get_file(request, filename):
@@ -96,18 +95,18 @@ def query(request):
     if request.method == "POST":
 
         # add new Question to database
-        text = request.data.get("text", "What is Django?")
+        text = request.data.get("question", "What is Django?")
         add = Question(text=text)
         add.save()
 
         # run qa langchain
         validated, possible, sources = askQuestion(text)
         
-        formatted = json.dumps({
+        formatted = {
             'question': text,
             'answer': validated,
             'sources': sources
-        })
+        }
 
         # return value
         return Response(formatted)
