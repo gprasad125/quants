@@ -16,12 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from bot.views import handle_file, handle_text, ingest, get_file
+from bot.views import upload_file, query, get_file
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('query/', handle_text),
-    path('documents/', handle_file),
-    #path('documents/', ingest),
+    path('query/', query),
+    path('documents/', upload_file),
     path('documents/<str:filename>', get_file)
 ]

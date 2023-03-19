@@ -11,7 +11,7 @@ from quants.ingest import ingest_md
 # Create your views here.
 
 @api_view(["POST"])
-def handle_file(request):
+def upload_file(request):
     '''
     Maps to /documents. API for uploading user documents
     '''
@@ -28,10 +28,20 @@ def handle_file(request):
 
                 # if markdown
                 if existing_file[-2:] == "md":
-                    os.remove(existing_file)
+                    if os.path.exists(existing_file):
+                        os.remove(existing_file)
 
         add = File(file=file)
         add.save()
+
+        trial = ingest_md()
+        if trial:
+            return Response('files ingested! ready to be queried')
+        elif trial == "No Files Uploaded!":
+            return Response(trial)
+        else:
+            return Response('files failed to be ingested.')
+        
 
         return Response('files uploaded!', status=200)
 
@@ -57,7 +67,11 @@ def get_file(request, filename):
         return Response(answer)
 
     except File.DoesNotExist:
-        return Response('File does not exist!')
+        current_files = '['
+        for f in File.objects.all():
+            current_files += f.filename + ', '
+
+        return Response('File does not exist! Current files include: ' + current_files + ']')
 
     except File.MultipleObjectsReturned:
 
@@ -74,21 +88,7 @@ def get_file(request, filename):
         return Response(answer)
 
 @api_view(["POST"])
-def ingest(request):
-
-    if request.method == "POST":
-
-        trial = ingest_md()
-        if trial:
-            return Response('files ingested! ready to be queried')
-        elif trial == "No Files Uploaded!":
-            return Response(trial)
-        else:
-            return Response('files failed to be ingested.')
-
-
-@api_view(["POST"])
-def handle_text(request):
+def query(request):
     '''
     Maps to query/. API for querying document database. 
     '''
