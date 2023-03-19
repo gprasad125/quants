@@ -20,7 +20,7 @@ def ingest_md():
     data = []
     sources = []
     for p in ps:
-        with open(p) as f:
+        with open(p, encoding="utf8") as f:
             data.append(f.read())
         sources.append(p)
 
