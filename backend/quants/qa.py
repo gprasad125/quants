@@ -9,11 +9,6 @@ from quants.custom.prompts import CUSTOM_COMBINE_PROMPT
 from quants.custom.validation import validate_answers
 from quants.custom.llm import CustomOpenAI
 
-# find_dotenv(load_dotenv())
-
-# # set openai key
-# os.environ['OPENAI_API_KEY'] = os.environ.get('openai_api_key')
-
 # Load the LangChain.
 index = faiss.read_index('quants/docs.index')
 
