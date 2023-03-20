@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('query/', query),
     path('documents/', upload_file),
-    path('documents/<str:filename>', get_file)
+    path('documents/<uuid:file_id>/', get_file)
 ]

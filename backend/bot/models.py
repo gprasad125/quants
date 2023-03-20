@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 class Question(models.Model):
@@ -10,6 +11,30 @@ class Question(models.Model):
 
     # define fields
     text = models.CharField(max_length = 500)
+
+class SourceDocument(models.Model):
+    """
+    A model to store document embeddings
+    Fields:
+    - id:           uuid 
+    - name:         original filename
+    - content:      document text
+    - embedding:    embeddings list stored as json
+    - created_at:   datetime of creation
+    """
+
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+
+    name = models.CharField(max_length=255)
+    content = models.TextField()
+
+    embedding = models.JSONField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} | uploaded at: {self.created_at}'
+
     
 class File(models.Model):
     """
