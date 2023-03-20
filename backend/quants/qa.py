@@ -36,6 +36,8 @@ def askQuestion(question):
     validated = validate_answers(results)
     answer = results['answer'].split(':::')
     sources = results['sources']
+    result_docs = results['result_docs']
+    print(f'RESULT DOCS: \n{result_docs}\n\n')
 
     return validated, answer, sources
 
