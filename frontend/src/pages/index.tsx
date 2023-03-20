@@ -66,7 +66,7 @@ function IndexPage() {
 	};
 
 	const uploadedFilesJSX = uploadedFiles.map((file, i) => {
-		let ext: 'txt' | 'md' = 'txt';
+		const ext: 'txt' | 'md' = 'txt';
 		// if (file.type === 'plain/markdown') {
 		// 	ext = 'md';
 		// }

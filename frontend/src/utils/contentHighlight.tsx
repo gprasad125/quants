@@ -2,7 +2,7 @@ function contentHighlight(content: string, extract: string) {
 	const lineCSSClass = 'mb-3';
 	const finalJSX = [];
 	const contentWithoutNewlines = content.replaceAll('\n', '');
-	const extractWithoutNewlines = extract.replaceAll('\n', '').trim()
+	const extractWithoutNewlines = extract.replaceAll('\n', '').trim();
 	let extractStart = contentWithoutNewlines.indexOf(extractWithoutNewlines);
 	let extractEnd = -1;
 	let hasExtract = false;
