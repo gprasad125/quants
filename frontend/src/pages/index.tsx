@@ -85,14 +85,14 @@ function IndexPage() {
 		const sourceArray = answer.sources;
 		sourcesJSX = sourceArray.map((src, i) => (
 			<li 
-				className='mb-3' key={i}
+				className='mb-3 flex flex-row' key={i}
 				onClick={() => {
 					setViewedSource(src);
 					setShowSourceOverlay(true);
 				}}
 			>
-				<img className='inline-block w-5 h-5 mr-3' src={CiteIcon} alt="Cite source" />
-				<button className='hover:text-gray-500'>{src.name}</button>
+				<img className='inline-block w-5 h-5 mr-3 mt-[0.35rem]' src={CiteIcon} alt="Cite source" />
+				<button className='hover:text-gray-500 inline-block text-left'>{src.name}</button>
 			</li>
 		));
 	}

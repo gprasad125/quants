@@ -55,15 +55,11 @@ class PostgresFAISS(FAISS):
     ):
         faiss = dependable_faiss_import()
         embeddings = []
-        documents = []
         index_to_id = {}
         i = 0
         for doc in query:
             embeddings.append(doc.embedding)
             index_to_id[i] = doc.id
-            documents.append(
-                Document(page_content=doc.content, metadata={'source': doc.name})
-            )
             i += 1
         
         embeddings = np.array(embeddings, dtype=np.float32)
