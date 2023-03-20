@@ -8,6 +8,7 @@ from quants.custom.chain import CustomChain
 from quants.custom.prompts import CUSTOM_COMBINE_PROMPT
 from quants.custom.validation import validate_answers
 from quants.custom.llm import CustomOpenAI
+from quants.custom.postgres_faiss import PostgresFAISS
 
 # Load the LangChain.
 
@@ -31,6 +32,22 @@ def load_index():
 def askQuestion(question):
 
     index, store, chain = load_index()
+
+    results = chain({'question': question})
+    validated = validate_answers(results)
+    answer = results['answer'].split(':::')
+    sources = results['sources']
+
+    return validated, answer, sources
+
+def process_query(query, question):
+    # generate store on the fly
+    store = PostgresFAISS.from_query(query)
+    chain = CustomChain.from_llm(
+        llm=CustomOpenAI(temperature=0, model_name="gpt-3.5-turbo"), 
+        combine_prompt=CUSTOM_COMBINE_PROMPT,
+        vectorstore=store
+    )
 
     results = chain({'question': question})
     validated = validate_answers(results)

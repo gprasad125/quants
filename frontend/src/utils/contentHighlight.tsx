@@ -1,5 +1,3 @@
-// {"question":"What is a webpage made of?","answer":"A webpage is made up of HTML, CSS, Javascript, and any other supporting files.","sources":" quants/Notion_DB/Building_Blocks_of_a_Webpage_b2fca7bc3f874cdeb889f45c1f4bad03.md"}
-
 function contentHighlight(content: string, extract: string) {
 	const lineCSSClass = 'mb-3';
 	const finalJSX = [];
@@ -12,7 +10,7 @@ function contentHighlight(content: string, extract: string) {
 		extractEnd = extractStart + extractWithoutNewlines.length - 1;
 		hasExtract = true;
 	}
-	console.log(hasExtract);
+
 	const contentLines = content.split('\n');
 	let currentIndex = 0;
 	for (let i = 0; i < contentLines.length; i++) {
