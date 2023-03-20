@@ -1,0 +1,18 @@
+@use './palette';
+
+.link {
+	span {
+		background-color: palette.$dot-gray;
+	}
+
+	.text {
+		background: none;
+		color: black;
+	}
+
+	&:hover {
+		.text {
+			color: palette.$black-hover;
+		}
+	}
+}
