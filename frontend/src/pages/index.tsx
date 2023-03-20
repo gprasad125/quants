@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../components/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from '../styles/index.module.scss';
@@ -13,6 +13,7 @@ import SourceDocOverlay from './source';
 
 export type Source = {
 	name: string,
+	id: string,
 	extract: string
 };
 
@@ -24,12 +25,24 @@ type Answer = {
 
 function IndexPage() {
 	const [question, setQuestion] = useState('');
-	const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+	const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 	const [answer, setAnswer] = useState<null | Answer>(null);
 	const [processingAnswer, setProcessingAnswer] = useState(false);
 	const [showUploadOverlay, setShowUploadOverlay] = useState(false);
 	const [showSourceOverlay, setShowSourceOverlay] = useState(false);
 	const [viewedSource, setViewedSource] = useState<Source>();
+
+	useEffect(() => {
+		const url = API_URL + '/documents/';
+		const options = {
+			method: 'GET'
+		};
+		protectedFetch<string[]>(url, options).then(res => {
+			setUploadedFiles(res);
+		}).catch(err => {
+			alert('failed to get uploaded documents!');
+		});
+	}, []);
 
 	const onQuestionAsked = () => {
 		setProcessingAnswer(true);
@@ -53,15 +66,15 @@ function IndexPage() {
 	};
 
 	const uploadedFilesJSX = uploadedFiles.map((file, i) => {
-		let ext: 'txt' | 'md' = 'txt';
-		if (file.type === 'plain/markdown') {
-			ext = 'md';
-		}
+		const ext: 'txt' | 'md' = 'txt';
+		// if (file.type === 'plain/markdown') {
+		// 	ext = 'md';
+		// }
 		return (
 			<Document 
 				key={i}
 				className='shadow-md mb-3' 
-				name={file.name}
+				name={file}
 				ext={ext}
 			/>
 		);
@@ -72,14 +85,14 @@ function IndexPage() {
 		const sourceArray = answer.sources;
 		sourcesJSX = sourceArray.map((src, i) => (
 			<li 
-				className='mb-3' key={i}
+				className='mb-3 flex flex-row' key={i}
 				onClick={() => {
 					setViewedSource(src);
 					setShowSourceOverlay(true);
 				}}
 			>
-				<img className='inline-block w-5 h-5 mr-3' src={CiteIcon} alt="Cite source" />
-				<button className='hover:text-gray-500'>{src.name}</button>
+				<img className='inline-block w-5 h-5 mr-3 mt-[0.35rem]' src={CiteIcon} alt="Cite source" />
+				<button className='hover:text-gray-500 inline-block text-left'>{src.name}</button>
 			</li>
 		));
 	}
@@ -175,7 +188,7 @@ function IndexPage() {
 			<div className='container mx-auto px-5 max-w-xl'>
 				{mainContent}
 				<UploadOverlay show={showUploadOverlay} onUploadSuccess={files => {
-					setUploadedFiles(files);
+					setUploadedFiles(files.map(x => x.name));
 					setShowUploadOverlay(false);
 				}} />
 				<SourceDocOverlay 

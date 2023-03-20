@@ -21,10 +21,11 @@ function SourceDocOverlay({ show, source, onClose }: Props) {
 	const [document, setDocument] = useState<Document>();
 
 	useEffect(() => {
-		if (!source?.name) {
+		if (!source?.id) {
 			return;
 		}
-		const url = API_URL + '/documents/' + encodeURIComponent(source.name.trim().replaceAll('_', ' '));
+		setDocument(undefined);
+		const url = API_URL + '/documents/' + source.id + '/';
 		const options = {
 			method: 'GET'
 		};
@@ -34,7 +35,7 @@ function SourceDocOverlay({ show, source, onClose }: Props) {
 		}).catch(err => {
 			alert((err.message ? err.message : JSON.stringify(err)));
 		});
-	}, [source?.name]);
+	}, [source?.id]);
 
 	let documentJSX: JSX.Element[] = [];
 	let containsExtract = false;
