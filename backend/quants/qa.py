@@ -1,92 +1,41 @@
-"""Ask a question to the notion database."""
-import faiss
-import pickle
-import openai
-import os
-
 from quants.custom.chain import CustomChain
 from quants.custom.prompts import CUSTOM_COMBINE_PROMPT
 from quants.custom.validation import validate_answers
 from quants.custom.llm import CustomOpenAI
 from quants.custom.postgres_faiss import PostgresFAISS
-
-# Load the LangChain.
-
-
-def load_index():
-
-    index = faiss.read_index('quants/docs.index')
-
-    with open('quants/faiss_store.pkl', 'rb') as f:
-        store = pickle.load(f)
-
-    store.index = index
-    chain = CustomChain.from_llm(
-        llm=CustomOpenAI(temperature=0, model_name="gpt-3.5-turbo"), 
-        combine_prompt=CUSTOM_COMBINE_PROMPT,
-        vectorstore=store
-    )
-
-    return index, store, chain
-
-def askQuestion(question):
-
-    index, store, chain = load_index()
-
-    results = chain({'question': question})
-    validated = validate_answers(results)
-    answer = results['answer'].split(':::')
-    sources = results['sources']
-
-    return validated, answer, sources
+from quants.custom.helper_models.document import DocumentHelper
 
 def process_query(query, question):
+    """
+    Given documents and a question, use an LLM to generate an answer using
+    context only from the given documents.
+
+    Args:
+        query: a Django QuerySet of all SourceDocuments to be used for 
+            answering the question
+        question: a string of the question to be answered
+
+    Returns:
+        a string of the validated answer, a string of the answer before
+        validation, and a list of Snippets of the source documents used in
+        answering the question
+    """
     # generate store on the fly
     store = PostgresFAISS.from_query(query)
+    # instantiate the custom chain
     chain = CustomChain.from_llm(
-        llm=CustomOpenAI(temperature=0, model_name="gpt-3.5-turbo"), 
+        llm=CustomOpenAI(temperature=0, model_name='gpt-3.5-turbo'), 
         combine_prompt=CUSTOM_COMBINE_PROMPT,
         vectorstore=store
     )
-
+    # run the chain
     results = chain({'question': question})
-    validated = validate_answers(results)
-    answer = results['answer'].split(':::')
-    sources = results['sources']
+    validated_answer = validate_answers(results)
+    # post processing of the results
+    original_answer = results.get(chain.answer_key).split(':::')
+    sources = results.get(chain.sources_answer_key)
+    raw_snippets = results.get(chain.snippets_key)
 
-    return validated, answer, sources
+    snippets = DocumentHelper.parse_snippets(sources, raw_snippets)
 
-def final_validation(question, answer):
-
-    rules = '''
-    Determine if the given answer is appropriate for the given question. If not, then return "I do not know". Otherwise, simply return the given answer. For example:
-
-    EXAMPLE PROMPT:
-    Given Question: "Who is the president of the United States?"
-    Given Answer: "The president of the U.S. is Joe Biden.
-
-
-    EXAMPLE CORRECT RESPONSE: The president of the U.S. is Joe Biden. 
-
-    EXAMPLE PROMPT:
-    Given Question: "Why do we like to use linters?"
-    Given Answer: "HTML is a markup language for building websites."
-
-    EXAMPLE CORRECT RESPONSE: I do not know. 
-
-    '''
-
-    prompt = 'Given question: ' + question + ", Given Answer: " + answer
-
-    openai.api_key = os.environ['OPENAI_API_KEY']
-    model = openai.ChatCompletion.create(
-        model = 'gpt-3.5-turbo', 
-        messages = [
-            {'role': 'system', 'content': rules},
-            {'role': 'user', 'content': prompt}
-        ]
-    )
-
-    validated = model['choices'][0]['message']['content'].strip()
-
-    return validated
+    return validated_answer, original_answer, snippets

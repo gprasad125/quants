@@ -84,9 +84,9 @@ function UploadOverlay({ show, onUploadSuccess }: Props) {
 						const fileArray = [];
 						for (let i = 0; i < files.length; i++) {
 							const file = files[i];
-							if (ALLOWED_FILES.includes(file.type)) {
-								fileArray.push(file);
-							}
+							// if (ALLOWED_FILES.includes(file.type)) {
+							fileArray.push(file);
+							// }
 						}
 						setFiles(fileArray);
 					}
