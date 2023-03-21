@@ -95,7 +95,7 @@ def query(request):
     for snippet in snippets:
         doc = SourceDocument.objects.filter(id=snippet.uuid).first()
         if doc is not None:
-            extract = snippet.content if snippet.content in doc.content else ''
+            extract = snippet.content
             formatted_sources.append({
                 'name': doc.name,
                 'id': doc.id,
