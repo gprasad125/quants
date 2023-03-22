@@ -1,8 +1,16 @@
 function contentHighlight(content: string, extract: string) {
+	let processedExtract = extract.trim();
+	// remove any paraphrases
+	if (extract.startsWith('\"')) {
+		processedExtract = processedExtract.replace('\"', '');
+	}
+	if (extract.endsWith('\"')) {
+		processedExtract = processedExtract.substring(0, processedExtract.length - 2);
+	}
 	const lineCSSClass = 'mb-3';
 	const finalJSX = [];
 	const contentWithoutNewlines = content.replaceAll('\n', '');
-	const extractWithoutNewlines = extract.replaceAll('\n', '').trim();
+	const extractWithoutNewlines = processedExtract.replaceAll('\n', '');
 	let extractStart = contentWithoutNewlines.indexOf(extractWithoutNewlines);
 	let extractEnd = -1;
 	let hasExtract = false;
