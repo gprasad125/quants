@@ -36,7 +36,6 @@ SQLAlchemy==1.4.46
 sqlparse==0.4.3
 tenacity==8.2.2
 tiktoken==0.3.0
-torch==2.0.0
 tqdm==4.65.0
 transformers==4.27.1
 typing-inspect==0.8.0
