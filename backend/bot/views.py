@@ -44,6 +44,8 @@ def upload_file(request):
 
         embeddings = embedding.embed_documents(docs)
 
+        SourceDocument.objects.all().delete()
+
         for i in range(len(embeddings)):
             SourceDocument.objects.create(
                 name=metadatas[i]['source'],
