@@ -30,7 +30,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("DEBUG") else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    f"https://{os.environ['FLY_APP_NAME']}.fly.dev",
+    "https://quads.ai-camp.dev"
+]
 
 
 # Application definition
