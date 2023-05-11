@@ -64,7 +64,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     f"https://{os.environ['FLY_APP_NAME']}.fly.dev",
-    "https://quants.ai-camp.dev"
+    "https://quads.ai-camp.dev"
 ]
 
 ROOT_URLCONF = 'backend.urls'
